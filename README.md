@@ -60,6 +60,30 @@ La razón por qué utilicé One-Hot Encoding para la columna "Seasons" fue princ
 
 Después de limpiar el dataset, dividí los datos para poder tener un dataset para entrenar mi modelo y otro dataset para probar mi modelo. Utilizando `random`, escogí 80% de los datos de manera aleatoria utilizando `sample` y los exporté a un nuevo csv con puros datos para entrenamiento del modelo y el 20% restante fue exportado a un nuevo csv conteniendo solamente los datos que se utilizarán para probar el modelo.
 
+### Scaling.ipynb
+
+Una vez que los datos ya estaban dividos para el entrenamiento y prueba, continué con el escalamiento de los datos utilizando `StandardScaler` de `sklearn.preprocessing` ya que la escala de mis datos estaban muy grandes. Primero, eliminé la columna de `Date` desde mis datos ya que las fechas eran cadenas de texto y para el escalamiento, nada más ocupo valores numéricos. 
+Después, dividí los datos otra vez en `features (x)` y `target (y)`. Las caracterísicas (x) son todos esos valores que va a usar el modelo para hacer predicciones, y la variable objetivo (y) es lo que el modelo tiene que predecir lo cual es la cantidad de bicicletas rentadas. 
+Ya que los datos estaban una vez más divididos, creé el escalador con `StandardScaler` de scikit-learn. Para los datos de `x_train`, utilicé `fit_transform()` para calcular la media y desviación estándar de cada columna y al final usar esos valores calculados para escalar los datos. En caso de `x_test`, solamente utilicé `transform()` para escalar los datos usando la media y desviación del entrenamiento pero sin `fit` porque eso causaría que use información del test para preparar mi modelo.
+Y al final de esto, exporté los datos de entrenamiento escalados, los datos de prueba escalados, la columna de target sin escalamiento de train y test a diferentes archivos de csv.
+
+## Modelo
+
+### Heatmap.ipynb
+
+Como tengo muchos features independientes, decidí evaluar la correlación entre estas categorías para visualizar la relevancia de cada uno de ellos con el target que es la cantidad de bicicletas rentadas ya que los features irrelevantes afectan la exactitud del modelo [2].
+Utilicé `seaborn` y `matplotlib.pyplot` para graficar este heat map. Eliminé las columnas de índice y de fechas los cuáles consideré irrelevantes desde la fase de escalamiento de los datos, y utilicé `corr()` para obtener la correlación entre las columnas. 
+Ya con los datos listos, creé un heat map rojo oscuro siendo 1, el valor más alto y el azul oscuro -1, el valor más bajo. Claramente, la hora y la temperatura fueron las columnas con más correlación con la cantidad de bicicletas rentadas.
+
+### MoelTraining.ipynb
+
+Utilizando `RandomForestRegressor` de `sklearn.ensemble`, entrené mi modelo con el algoritmo de **Random Forest**.
+Para los datos objetivos que no están escalados, utilicé `values.ravel()` para convertir mi DataFrame en un arreglo NumPy unidimensional.
+Después, creé mi modelo `RandomForestRegressor` usando scikit-learn. El parámetro `n_estimators` es para indicar el número de árboles en el bosque, y el `random_state` sirve para que mi modelo obtenga el mismo resultado siempre.
+`y_pred` es el arreglo con las predicciones del modelo que se generó con los datos de prueba. Después, calculé el **Mean Absolute Error (MAE)**, **Root Mean Squared Error (RMSE)** y **R^2** usando `sklearn.metrics`. 
+Mi modelo tuvo MAE de 131.99, RMSE de 225.13 y R^2 de 0.88, cuando el modelo que encontré que utiliza random forest obtuvo MAE de 121, RMSE de 210 y R de 0.9 [3]. También generé 3 gráficas utililando `matplotlib.pyplot` para ver qué tan lejos están los valores previstos de los valores actuales.
+Las primeras dos gráficas muestra todos los valores, pero la última gráfica recibe una entrada por hora para que sea más fácil de visualizar la comparación, y utilicé `randint` para que el resultado de la gráfica cada vez que corres el modelo.
+
 ## Referencias
 
 [1] UCI Machine Learning Repository, “Seoul Bike Sharing Demand,” [Online]. Available: https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand. [Accessed: May 12, 2025].
