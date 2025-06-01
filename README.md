@@ -75,7 +75,7 @@ Como tengo muchos features independientes, decidí evaluar la correlación entre
 Utilicé `seaborn` y `matplotlib.pyplot` para graficar este heat map. Eliminé las columnas de índice y de fechas los cuáles consideré irrelevantes desde la fase de escalamiento de los datos, y utilicé `corr()` para obtener la correlación entre las columnas. 
 Ya con los datos listos, creé un heat map rojo oscuro siendo 1, el valor más alto y el azul oscuro -1, el valor más bajo. Claramente, la hora y la temperatura fueron las columnas con más correlación con la cantidad de bicicletas rentadas.
 
-### MoelTraining.ipynb
+### ModelTraining.ipynb
 
 Utilizando `RandomForestRegressor` de `sklearn.ensemble`, entrené mi modelo con el algoritmo de **Random Forest**.
 Para los datos objetivos que no están escalados, utilicé `values.ravel()` para convertir mi DataFrame en un arreglo NumPy unidimensional.
@@ -87,5 +87,7 @@ Las primeras dos gráficas muestra todos los valores, pero la última gráfica r
 ## Referencias
 
 [1] UCI Machine Learning Repository, “Seoul Bike Sharing Demand,” [Online]. Available: https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand. [Accessed: May 12, 2025].
+
 [2] X. Lin and C. Lu, “A Stacking-Based ensemble model for prediction of metropolitan bike sharing demand,” American Journal of Information Science and Technology, Apr. 2023, doi: 10.11648/j.ajist.20230702.13.
+
 [3] T.-T. T. Ngo, H. T. Pham, J. G. Acosta, and S. Derrible, “Predicting Bike-Sharing demand using Random Forest,” Journal of Science and Transport Technology, pp. 13–21, May 2022, doi: 10.58845/jstt.utt.2022.en.2.13-21.
