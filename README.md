@@ -98,15 +98,15 @@ Y este modelo tuvo MAE de 194.56, RMSE de 315.91 y R^2 de 0.76.
 
 #### Random Forest
 
-![RandomForest_100](image-1.png)
+![RandomForest_100](./Images/image-1.png)
 
-![RandomForest_1752](image.png)
+![RandomForest_1752](./Images/image.png)
 
 #### Deep Neural Network
 
-![DNN_100](image-2.png)
+![DNN_100](./Images/image-2.png)
 
-![DNN_1752](image-3.png)
+![DNN_1752](./Images/image-3.png)
 
 Estas 4 gráficas muestran el resultado de predicciones de los dos modelos. Los primeros dos son de Random Forest; la primera gráfica siendo el scatter plot de las primeras 100 entradas, 
 y la segunda siendo la versión con todas las entradas del datase. Las mismas gráficas se muestran para la sección de Neural Network.
