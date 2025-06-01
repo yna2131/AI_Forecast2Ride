@@ -81,8 +81,28 @@ Utilizando `RandomForestRegressor` de `sklearn.ensemble`, entrené mi modelo con
 Para los datos objetivos que no están escalados, utilicé `values.ravel()` para convertir mi DataFrame en un arreglo NumPy unidimensional.
 Después, creé mi modelo `RandomForestRegressor` usando scikit-learn. El parámetro `n_estimators` es para indicar el número de árboles en el bosque, y el `random_state` sirve para que mi modelo obtenga el mismo resultado siempre.
 `y_pred` es el arreglo con las predicciones del modelo que se generó con los datos de prueba. Después, calculé el **Mean Absolute Error (MAE)**, **Root Mean Squared Error (RMSE)** y **R^2** usando `sklearn.metrics`. 
-Mi modelo tuvo MAE de 131.99, RMSE de 225.13 y R^2 de 0.88, cuando el modelo que encontré que utiliza random forest obtuvo MAE de 121, RMSE de 210 y R de 0.9 [3]. También generé 3 gráficas utililando `matplotlib.pyplot` para ver qué tan lejos están los valores previstos de los valores actuales.
+Mi modelo tuvo MAE de 140.97, RMSE de 233.63 y R^2 de 0.87, cuando el modelo que encontré que utiliza random forest obtuvo MAE de 121, RMSE de 210 y R de 0.9 [3]. También generé 3 gráficas utililando `matplotlib.pyplot` para ver qué tan lejos están los valores previstos de los valores actuales.
 Las primeras dos gráficas muestra todos los valores, pero la última gráfica recibe una entrada por hora para que sea más fácil de visualizar la comparación, y utilicé `randint` para que el resultado de la gráfica cada vez que corres el modelo.
+
+### NueralNetwork.ipynb
+
+Ya que el rendimiento de mi modelo utilizando Random Forest no fue lo óptimo, intenté comparar los resultados
+con un modelo de **Nueral Network**. Utilicé `tf.keras.Sequential`, con dos capas densas con la activación relu 
+y una capa densa con 1 para obtener la salida numérica para el modelo de regresión. Entrené el modelo utilizando los datos de entrenamiento durante 100 épocas,
+y al evaluar, obtuve el loss de 194.56 y el accuracy de 0.029. Sin embargo, como es un modelo de regresión que predice el valor de la salida de acuerdo a los valores de entrada, el accuracy no tiene mucha relevancia.
+Y este modelo tuvo MAE de 194.56, RMSE de 315.91 y R^2 de 0.76.
+
+## Resultados
+
+### Comparación de Modelos
+
+#### Random Forest
+
+![alt text](image-1.png)
+
+#### Deep Neural Network
+
+![alt text](image-2.png)
 
 ## Referencias
 
