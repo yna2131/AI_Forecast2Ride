@@ -92,17 +92,29 @@ y una capa densa con 1 para obtener la salida numérica para el modelo de regres
 y al evaluar, obtuve el loss de 194.56 y el accuracy de 0.029. Sin embargo, como es un modelo de regresión que predice el valor de la salida de acuerdo a los valores de entrada, el accuracy no tiene mucha relevancia.
 Y este modelo tuvo MAE de 194.56, RMSE de 315.91 y R^2 de 0.76.
 
-## Resultados
+## Análisis de Resultados
 
 ### Comparación de Modelos
 
 #### Random Forest
 
-![alt text](image-1.png)
+![RandomForest_100](image-1.png)
+
+![RandomForest_1752](image.png)
 
 #### Deep Neural Network
 
-![alt text](image-2.png)
+![DNN_100](image-2.png)
+
+![DNN_1752](image-3.png)
+
+Estas 4 gráficas muestran el resultado de predicciones de los dos modelos. Los primeros dos son de Random Forest; la primera gráfica siendo el scatter plot de las primeras 100 entradas, 
+y la segunda siendo la versión con todas las entradas del datase. Las mismas gráficas se muestran para la sección de Neural Network.
+Como se puede observar en las gráfica 1 y 3 que muestran las primeras 100 predicciones, hay predicciones que son muy cercanas a los datos reales pero al mismo tiempo hay predicciones que están muy lejos de lo esperado.
+Aunque la diferencia entre los resultados de los dos modelos parece ser muy similares al observar las gráficas y más con los scatter plots que muestran todas las predicciones del dataset, pude analizar que el modelo
+que utiliza Random Forest tiene mejor rendimiento que el modelo que utiliza Neural Network. Si nos enfacos en las gráficas de 100 entradas, los puntos de predicción del modelo con Random Forest están más cercas de los resultados esperados.
+
+
 
 ## Referencias
 
