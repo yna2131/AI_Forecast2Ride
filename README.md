@@ -10,7 +10,7 @@ El uso de bicicletas públicas es una opción eficiente y ecológica para la mov
 
 ## Dataset
 
-Este proyecto utiliza técnicas de Machine Learning para predecir la cantidad de bicicletas que se rentarán utilizando los datos de Seúl, Corea del Sur. El dataset contiene el número de bicicletas públicas rentada por hora en el sistema de distribución de bicicletas de Seúl, junto con los datos climáticos correspondientes y la información de vacaciones
+Este proyecto utiliza técnicas de Machine Learning para predecir la cantidad de bicicletas que se rentarán utilizando los datos de Seúl, Corea del Sur. El dataset contiene el número de bicicletas públicas rentada por hora en el sistema de distribución de bicicletas de Seúl, junto con los datos climáticos correspondientes y la información de vacaciones.
 
 ### Tabla de Variables
 
@@ -62,7 +62,7 @@ Después de limpiar el dataset, dividí los datos para poder tener un dataset pa
 
 ### Scaling.ipynb
 
-Una vez que los datos ya estaban dividos para el entrenamiento y prueba, continué con el escalamiento de los datos utilizando `StandardScaler` de `sklearn.preprocessing` ya que la escala de mis datos estaban muy grandes. Primero, eliminé la columna de `Date` desde mis datos ya que las fechas eran cadenas de texto y para el escalamiento, nada más ocupo valores numéricos. 
+Una vez que los datos ya estaban dividos para el entrenamiento y prueba, continué con el escalamiento de los datos utilizando `StandardScaler` de `sklearn.preprocessing` ya que la escala de mis datos estaban muy grandes. Primero, eliminé la columna de `Date` desde mis datos ya que las fechas no es parte de los features relevantes que quiero utilizar para hacer las predicciones.
 Después, dividí los datos otra vez en `features (x)` y `target (y)`. Las caracterísicas (x) son todos esos valores que va a usar el modelo para hacer predicciones, y la variable objetivo (y) es lo que el modelo tiene que predecir lo cual es la cantidad de bicicletas rentadas. 
 Ya que los datos estaban una vez más divididos, creé el escalador con `StandardScaler` de scikit-learn. Para los datos de `x_train`, utilicé `fit_transform()` para calcular la media y desviación estándar de cada columna y al final usar esos valores calculados para escalar los datos. En caso de `x_test`, solamente utilicé `transform()` para escalar los datos usando la media y desviación del entrenamiento pero sin `fit` porque eso causaría que use información del test para preparar mi modelo.
 Y al final de esto, exporté los datos de entrenamiento escalados, los datos de prueba escalados, la columna de target sin escalamiento de train y test a diferentes archivos de csv.
@@ -73,7 +73,9 @@ Y al final de esto, exporté los datos de entrenamiento escalados, los datos de 
 
 Como tengo muchos features independientes, decidí evaluar la correlación entre estas categorías para visualizar la relevancia de cada uno de ellos con el target que es la cantidad de bicicletas rentadas ya que los features irrelevantes afectan la exactitud del modelo [2].
 Utilicé `seaborn` y `matplotlib.pyplot` para graficar este heat map. Eliminé las columnas de índice y de fechas los cuáles consideré irrelevantes desde la fase de escalamiento de los datos, y utilicé `corr()` para obtener la correlación entre las columnas. 
-Ya con los datos listos, creé un heat map rojo oscuro siendo 1, el valor más alto y el azul oscuro -1, el valor más bajo. Claramente, la hora y la temperatura fueron las columnas con más correlación con la cantidad de bicicletas rentadas.
+Claramente, la hora y la temperatura fueron las columnas con más correlación con la cantidad de bicicletas rentadas.
+
+![Correlation Heatmap](./Images/image-4.png)
 
 ### ModelTraining.ipynb
 
@@ -84,12 +86,17 @@ Después, creé mi modelo `RandomForestRegressor` usando scikit-learn. El parám
 Mi modelo tuvo MAE de 140.97, RMSE de 233.63 y R^2 de 0.87, cuando el modelo que encontré que utiliza random forest obtuvo MAE de 121, RMSE de 210 y R de 0.9 [3]. También generé 3 gráficas utililando `matplotlib.pyplot` para ver qué tan lejos están los valores previstos de los valores actuales.
 Las primeras dos gráficas muestra todos los valores, pero la última gráfica recibe una entrada por hora para que sea más fácil de visualizar la comparación, y utilicé `randint` para que el resultado de la gráfica cada vez que corres el modelo.
 
+Al quitar Dew Point Temperature, el MAE baja a 140.83, RMSE a 233.47 y R^2 queda igual a 0.87
+
+
+
 ### NueralNetwork.ipynb
 
-Ya que el rendimiento de mi modelo utilizando Random Forest no fue lo óptimo, intenté comparar los resultados
+Ya que el rendimiento de mi modelo utilizando Random Forest no fue lo óptimo como yo esperaba, intenté comparar los resultados
 con un modelo de **Nueral Network**. Utilicé `tf.keras.Sequential`, con dos capas densas con la activación relu 
 y una capa densa con 1 para obtener la salida numérica para el modelo de regresión. Entrené el modelo utilizando los datos de entrenamiento durante 100 épocas,
-y al evaluar, obtuve el loss de 194.56 y el accuracy de 0.029. Sin embargo, como es un modelo de regresión que predice el valor de la salida de acuerdo a los valores de entrada, el accuracy no tiene mucha relevancia.
+y al evaluar, obtuve el loss de 194.56 y el accuracy de 0.029. Sin embargo, como es un modelo de regresión que predice el valor de la salida de acuerdo a los valores de entrada, el accuracy no tiene mucha relevancia porque la probabilidad
+de que una predicción sea exactamente igual que el valor real es muy baja.
 Y este modelo tuvo MAE de 194.56, RMSE de 315.91 y R^2 de 0.76.
 
 ## Análisis de Resultados
@@ -113,7 +120,6 @@ y la segunda siendo la versión con todas las entradas del datase. Las mismas gr
 Como se puede observar en las gráfica 1 y 3 que muestran las primeras 100 predicciones, hay predicciones que son muy cercanas a los datos reales pero al mismo tiempo hay predicciones que están muy lejos de lo esperado.
 Aunque la diferencia entre los resultados de los dos modelos parece ser muy similares al observar las gráficas y más con los scatter plots que muestran todas las predicciones del dataset, pude analizar que el modelo
 que utiliza Random Forest tiene mejor rendimiento que el modelo que utiliza Neural Network. Si nos enfacos en las gráficas de 100 entradas, los puntos de predicción del modelo con Random Forest están más cercas de los resultados esperados.
-
 
 
 ## Referencias
