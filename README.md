@@ -123,11 +123,11 @@ Entonces esto ocasiona que sea complicado visualizar cómo se está desempeñand
 #### Uso de Datos Externos
 
 Ya con un modelo funcional, intenté generar una predicción utilizando los datos externos. El usuario da las variables independientes,
-y el modelo predice la cantidad de las bicicletas que se rentará de acuerd a los datos recibidos.
+y el modelo predice la cantidad de bicicletas que se rentarán de acuerdo a los datos recibidos.
 Al principio, estaba obteniendo predicciones bastantes cercanas a los valores esperados (ex. Si el valor real era 251, la predicción fue 227), pero me dí cuenta que mi dataset tenía una columna
-extra de índice que pensé que había el las fases anteriores. Por esta razón, regresé a limpiar mis datos y entrar de nuevo mi modelo para probar la predicción con los datos externos.
-Ya una vez que esta columna fue eliminada, la predicción empeoró bastante porque la columna de índice era un ruido que estaba haciendo un tipo de "trampa" a mi modelo. Antes, el modelo estaba obteniendo el R² de 0.88, pero después del ajuste, el modelo obtuvo el R² de 0.87 
-lo cual no parece ser un gran cambio, pero afecta bastante en las predicciones. Aunque parece que empeoré mi modelo, al final, esto fue una mejora ya que eliminé el ruido que no me estaba dejando una predicción más preciso y real.
+extra de índice que pensé que había eliminado en las fases anteriores. Por esta razón, regresé a limpiar mis datos y entrenar de nuevo mi modelo para probar la predicción con los datos externos.
+Una vez que esta columna fue eliminada, la predicción empeoró bastante porque la columna de índice introducía ruido que estaba haciendo un tipo de "trampa" a mi modelo. Antes, el modelo estaba obteniendo el R² de 0.88, pero después del ajuste, el modelo obtuvo el R² de 0.87 
+lo cual no parece ser un gran cambio, pero afecta bastante en las predicciones. Aunque parece que empeoré mi modelo, al final, esto fue una mejora ya que eliminé el ruido que no me estaba dando una predicción más precisa y real.
 
 ## Mejorando el modelo
 
@@ -140,18 +140,18 @@ Como estoy utilizando muchos features para mi modelo:
 5. Visibilidad
 6. Punto de rocío
 7. Radiación solar
-8. Lluevias
+8. Lluvias
 9. Nevadas
 10. Estación (Primavera, Verano, Otoño, Invierno)
 11. Día Festival (Sí o No)
 12. Día Funcional (Sí o No)
 
 Y en teoría, al momento de eliminar algunos features que tiene una correlación débil, el modelo puede mejorar su rendimento [2].
-Por esta razón, intenté eliminar algunos features que parecen estar muy relacionados con otros features. Primero, intenté eliminar
-punto de rocío lo cual se relaciona mucho con la temperatura de acuerdo a mi heatmap de correlación, y radiación solar que se relaciona bastane con
-la temperatura y humedad. Originalmente, mi modelo tuvo MAE de 140.97, RMSE de 233.63 y R² de 0.87; y al eliminarlos, el reusltado de las predicciones fueron mucho más impreciso obteniendo los valores de MAE y RMSE más altos, 
-y R² mucho más bajo que antes. Entonces intenté una vez más eliminando solamente el punto de rocío que es un dato muy similar a la temperatura, y esta vez, 
-los resultados mejoraron con el MAE que bajó a 140.83, RMSE a 233.47 y R² queda igual a 0.87
+Por esta razón, intenté eliminar algunos features que parecen estar muy relacionados con otros. Primero, intenté eliminar
+punto de rocío el cual se relaciona con la temperatura de acuerdo a mi heatmap de correlación, y radiación solar que se relaciona bastante con
+la temperatura y humedad. Originalmente, mi modelo tuvo 140.97 de MAE, 233.63 de RMSE y 0.87 de R²; y al eliminarlos, el resultado de las predicciones fue mucho más impreciso obteniendo los valores de MAE y RMSE más altos, 
+y R² mucho más bajo que antes. Entonces, intenté solamente eliminando el punto de rocío que es un dato muy similar al de la temperatura, y esta vez, 
+los resultados mejoraron con el MAE que bajó a 140.83, RMSE a 233.47 y el R² que se mantiene en 0.87.
 
 <p align="center">
     <image src="./Images/image-1.png" alt="Random Forest (all features)">
@@ -165,17 +165,17 @@ los resultados mejoraron con el MAE que bajó a 140.83, RMSE a 233.47 y R² qued
     <em> Fig 5. Comparación de los primeros 100 resultados sin punto de rocío</em>
 </p>
 
-Si comparamos la figura 4 y 5 a detalle, se ve que sí hay un poco de diferencia aunque sí es bastante similar en general. Hay predicciones que se empeoran un poquito que antes, pero también hay predicciones que mejoran; podemos observar los puntos
-que estaban empalmados quedaron aun más empalmados, lo cual nos explica por qué el MAE y RMSE bajaron. El error bajó al momento de quitar el punto de rocío desde los features, aunque fue por muy poquito.
+Si comparamos la figura 4 y 5 a detalle, se percibe una diferencia aunque en general, es bastante similar. Hay predicciones que empeoran un poco más que antes, pero también hay predicciones que mejoran; podemos observar que los puntos
+que estaban empalmados quedaron aun más empalmados, lo cual nos explica por qué el MAE y RMSE bajaron. El error bajó al momento de quitar el punto de rocío desde los features, aunque fue por muy poco.
 
-### NueralNetwork.ipynb
+### NeuralNetwork.ipynb
 
-Ya que el rendimiento de mi modelo utilizando Random Forest no fue lo óptimo como yo esperaba, intenté comparar los resultados
-con un modelo de **Nueral Network**. Utilicé `tf.keras.Sequential`, con dos capas densas con la activación relu 
+Ya que el rendimiento de mi modelo utilizando Random Forest no fue como yo esperaba, intenté comparar los resultados
+con un modelo de **Neural Network**. Utilicé `tf.keras.Sequential`, con dos capas densas con la activación relu 
 y una capa densa con 1 para obtener la salida numérica para el modelo de regresión. Entrené el modelo utilizando los datos de entrenamiento durante 100 épocas,
 y al evaluar, obtuve el loss de 194.56 y el accuracy de 0.029. Sin embargo, como es un modelo de regresión que predice el valor de la salida de acuerdo a los valores de entrada, el accuracy no tiene mucha relevancia porque la probabilidad
 de que una predicción sea exactamente igual que el valor real es muy baja.
-Y este modelo tuvo MAE de 194.56, RMSE de 315.91 y R² de 0.76.
+Este modelo tuvo 194.56 de MAE, 315.91 de RMSE y 0.76 de R².
 
 ### Comparación de Modelos
 
