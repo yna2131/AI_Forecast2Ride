@@ -28,7 +28,7 @@ Este proyecto utiliza técnicas de Machine Learning para predecir la cantidad de
 | Date (Fecha)                                      | Fecha         | NA     |
 | Rented Bike count (Número de Bicicletas Rentadas) | Número Entero | NA     |
 | Hour (Hora)                                       | Número Entero | NA     |
-| Temperature (Temperatura)                         | Continuo      | C      |
+| Temperature (Temperatura)                         | Continuo      | C°     |
 | Humidity (Humedad)                                | Número Entero | %      |
 | Wind Speed (Velocidad del Viento)                 | Continuo      | m/s    |
 | Visibility (Visibilidad)                          | Número Entero | 10m    |
