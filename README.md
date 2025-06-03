@@ -11,7 +11,7 @@ Se describe el proceso de preprocesamiento de datos, incluyendo encoding, splitt
 Se implementan y comparan modelos de regresión, específicamente Random Forest y Redes Neuronales, evaluando su desempeño con métricas como MAE, RMSE y R². 
 Los resultados muestran que el modelo Random Forest, tras la optimización de variables, ofrece la mejor precisión predictiva. 
 El proyecto concluye que el modelo desarrollado tiene un nivel de precisión aceptable para estimar la demanda de bicicletas en función de variables climáticas y temporales, 
-contribuyendo a la gestión eficiente del sistema de bicicletas compartidas en la ciudad.
+contribuyendo a la gestión eficiente del sistema de bicicletas compartidas en la ciudad de Seúl.
 
 ## Introducción
 
