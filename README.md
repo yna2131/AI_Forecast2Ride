@@ -71,18 +71,18 @@ Después de limpiar el dataset, dividí los datos para poder tener un dataset pa
 
 ### Scaling.ipynb
 
-Una vez que los datos ya estaban dividos para el entrenamiento y prueba, continué con el escalamiento de los datos utilizando `StandardScaler` de `sklearn.preprocessing` ya que la escala de mis datos estaban muy grandes. Primero, eliminé la columna de `Date` desde mis datos ya que las fechas no es parte de los features relevantes que quiero utilizar para hacer las predicciones.
-Después, dividí los datos otra vez en `features (x)` y `target (y)`. Las caracterísicas (x) son todos esos valores que va a usar el modelo para hacer predicciones, y la variable objetivo (y) es lo que el modelo tiene que predecir lo cual es la cantidad de bicicletas rentadas. 
-Ya que los datos estaban una vez más divididos, creé el escalador con `StandardScaler` de scikit-learn. Para los datos de `x_train`, utilicé `fit_transform()` para calcular la media y desviación estándar de cada columna y al final usar esos valores calculados para escalar los datos. En caso de `x_test`, solamente utilicé `transform()` para escalar los datos usando la media y desviación del entrenamiento pero sin `fit` porque eso causaría que use información del test para preparar mi modelo.
-Y al final de esto, exporté los datos de entrenamiento escalados, los datos de prueba escalados, la columna de target sin escalamiento de train y test a diferentes archivos de csv.
+Una vez que los datos ya estaban dividos para el entrenamiento y prueba, continué con el escalamiento de los datos utilizando `StandardScaler` de `sklearn.preprocessing` ya que la escala de mis datos era muy grande. Primero, eliminé la columna de `Date` de mis datos ya que las fechas no es parte de los features relevantes que quiero utilizar para hacer las predicciones.
+Después, dividí los datos otra vez en `features (x)` y `target (y)`. Las caracterísicas (x) son todos esos valores que va a usar el modelo para hacer predicciones, y la variable objetivo (y) es lo que el modelo tiene que predecir, la cual es la cantidad de bicicletas rentadas. 
+Una vez que los datos estuvieron nuevamente divididos, creé el escalador con `StandardScaler` de scikit-learn. Para los datos de `x_train`, utilicé `fit_transform()` para calcular la media y desviación estándar de cada columna y al final usar esos valores calculados para escalar los datos. En caso de `x_test`, solamente utilicé `transform()` para escalar los datos usando la media y desviación del entrenamiento pero sin `fit` porque esto causaría que use información del test para entrenar mi modelo.
+Finalmente, exporté los datos de entrenamiento y pruebas escalados, la columna objetivo de train y test sin escalar a diferentes archivos csv.
 
 ## Modelo
 
 ### Heatmap.ipynb
 
-Como tengo muchos features independientes, decidí evaluar la correlación entre estas categorías para visualizar la relevancia de cada uno de ellos con el target que es la cantidad de bicicletas rentadas ya que los features irrelevantes afectan la exactitud del modelo [2].
-Utilicé `seaborn` y `matplotlib.pyplot` para graficar este heat map. Eliminé la columna de fechas lo cual consideré irrelevantes desde la fase de escalamiento de los datos, y utilicé `corr()` para obtener la correlación entre las columnas. 
-Claramente, la hora y la temperatura fueron las columnas con más correlación con la cantidad de bicicletas rentadas.
+Como tengo muchos features independientes, decidí evaluar la correlación entre estas categorías para visualizar la relevancia de cada uno de ellos con el target, que es la cantidad de bicicletas rentadas ya que los features irrelevantes afectan la exactitud del modelo [2].
+Utilicé `seaborn` y `matplotlib.pyplot` para graficar este heat map. Eliminé la columna de fechas la cual consideré irrelevantes desde la fase de escalamiento de los datos, y utilicé `corr()` para obtener la correlación entre las columnas. 
+Podemos observar que la hora y la temperatura fueron las columnas con más correlación con la cantidad de bicicletas rentadas.
 
 <p align="center">
     <image src="./Images/image-4.png" alt="Heatmap de Correlación">
@@ -96,8 +96,7 @@ Utilizando `RandomForestRegressor` de `sklearn.ensemble`, entrené mi modelo con
 Para los datos objetivos que no están escalados, utilicé `values.ravel()` para convertir mi DataFrame en un arreglo NumPy unidimensional.
 Después, creé mi modelo `RandomForestRegressor` usando scikit-learn. El parámetro `n_estimators` es para indicar el número de árboles en el bosque, y el `random_state` sirve para que mi modelo obtenga el mismo resultado siempre.
 `y_pred` es el arreglo con las predicciones del modelo que se generó con los datos de prueba. Después, calculé el **Mean Absolute Error (MAE)**, **Root Mean Squared Error (RMSE)** y **R²** usando `sklearn.metrics`. 
-Mi modelo tuvo MAE de 140.97, RMSE de 233.63 y R² de 0.87. También generé 2 gráficas utililando `matplotlib.pyplot` para ver qué tan lejos están los valores previstos de los valores actuales.
-
+Mi modelo obtuvo 140.97 de MAE, 233.63 de RMSE y 0.87 de R². Generé 2 gráficas utililzando `matplotlib.pyplot` para ver qué tan separados están los valores predichos de los valores actuales.
 
 <p align="center">
     <image src="./Images/image-5.png" alt="Actual vs Predicted">
@@ -105,8 +104,8 @@ Mi modelo tuvo MAE de 140.97, RMSE de 233.63 y R² de 0.87. También generé 2 g
     <em> Fig 2. Comparación de datos reales vs datos predichos</em>
 </p>
 
-Esta gráfica muestra todos los valores predichos y reales al mismo tiempo. La línea roja es lo que se considera la predicción
-perfecta, y lo más disperso, más error tiene mi modelo. Y como se puede observar, sí hay puntos muy lejos de otros,
+La figura 2 muestra todos los valores predichos y reales al mismo tiempo. La línea roja es lo que se considera la predicción
+perfecta, y mientras más separadas de esta, más error tiene mi modelo. Como se puede observar, hay puntos muy separados de otros,
 pero en general, todos los puntos están muy cerca de la línea roja.
 
 <p align="center">
@@ -115,11 +114,11 @@ pero en general, todos los puntos están muy cerca de la línea roja.
     <em> Fig 3. Comparación de datos reales vs datos predichos - una entrada por hora</em>
 </p>
 
-En caso de esta gráfica, recibe una entrada por hora para que sea más fácil de visualizar la comparación.
-Sí es mucho más fácil de observar los datos y analizar que en general, los valores predichos y actuales no están muy lejos.
-Sin embargo, el resultado de la gráfica es distinta cada vez que se corre el modelo porque utilicé `randint()` y nada más se muestra una
-parte muy chiquita del resultado. Hay veces donde las predicciones están muy lejos de los datos reales, y hay veces donde la predicción es muy similar al valor esperado.
-Entonces es complicado visualizar cómo está el desempeño de mi modelo en general.
+En el caso de esta gráfica (figura 3), se recibe una entrada por hora para que sea más fácil visualizar la comparación.
+Así es mucho más fácil observar y analizar los datos. En general, los valores predichos y actuales no están muy lejos,
+sin embargo, el resultado de la gráfica es distinto cada vez que se corre el modelo ya que utilicé `randint()` y nada más se muestra una
+parte muy pequeña del resultado. Hay veces donde las predicciones están muy lejos de los datos reales, y otras donde la predicción es muy similar al valor esperado.
+Entonces esto ocasiona que sea complicado visualizar cómo se está desempeñando mi modelo en general.
 
 #### Uso de Datos Externos
 
