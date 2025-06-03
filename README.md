@@ -207,20 +207,20 @@ Este modelo tuvo 194.56 de MAE, 315.91 de RMSE y 0.76 de R².
     <em> Fig 9. Comparación de todos los resultados de DNN</em>
 </p>
 
-Para los ambos modelos, creé un scatter plot que muestra los valores de salida esperados en color azul, y las prediccioens del modelo con color rojo.
+Para los ambos modelos, creé un scatter plot que muestra los valores de salida esperados en color azul, y las predicciones del modelo con color rojo.
 Las primeras dos son de Random Forest; la figura 6 siendo el scatter plot de las primeras 100 entradas, 
-y la figura 7 siendo la versión con todas las entradas del dataset. Las mismas gráficas se muestran para la sección de Neural Network con figura 8 y 9.
-Como se puede observar en las figura 6 y figura 8, hay predicciones que son muy cercanas a los datos reales pero al mismo tiempo hay predicciones que están muy lejos de lo esperado.
-Aunque la diferencia entre los resultados de los dos modelos parece ser muy similares al observar las gráficas y más con los scatter plots que muestran todas las predicciones del dataset, pude analizar que el modelo
+y la figura 7 siendo la versión con todas las entradas del dataset. Las mismas gráficas se muestran para la sección de Neural Network en figura 8 y 9.
+Como se puede observar en la figura 6 y figura 8, hay predicciones que son muy cercanas a los datos reales pero al mismo tiempo hay predicciones que están muy lejos de lo esperado.
+Aunque la diferencia entre los resultados de los dos modelos parece ser muy similares al observar las gráficas y sobre todo los scatter plots que muestran todas las predicciones del dataset, pude analizar que el modelo
 que utiliza Random Forest tiene mejor rendimiento que el modelo que utiliza Neural Network. Si nos enfocamos en las gráficas de 100 entradas, los puntos de predicción del modelo con Random Forest están más cercas 
-de los resultados esperados que en el modelo de Nueral Network.
+de los resultados esperados que en el modelo de Neural Network.
 
 ## Conclusión
 
-Después de comparar diferentes modelos, llegué a la conclusión que el modelo de Random Forest sin el punto de rocío obtuvo el mejor resultado. No fue el modelo óptimo para hacer las predicciones ya que mi modelo tuvo 
-el MAE de 140.83, RMSE de 233.47 y el R² de 0.87, cuando el modelo que encontré que utiliza Random Forest obtuvo MAE de 121, RMSE de 210 y R de 0.9 [3].
-Aunque mi modelo no tuvo el mejor rendimiento, creo que puede ser utilizado para un sistema que predice el número de bicicletas que se rentará de acuerdo a los datos climáticos de entrada porque siendo un modelo de regresión,
-el valor de R² siendo mayor que 0.8 se puede considerar aceptable ya que esto indica que una gran proporción de la varianza en la variable dependiente es explicada por las variables independientes.
+Después de comparar diferentes modelos, llegué a la conclusión que el modelo de Random Forest sin el punto de rocío obtuvo el mejor resultado. Aunque no fue el modelo óptimo para realizar predicciones ya que mi modelo tuvo 
+el 140.83 de MAE, 233.47 de RMSE y 0.87 de R², cuando el modelo que encontré en el estado de arte obtuvo 121 de MAE, 210 de RMSEy 0.9 de R [3].
+
+En conclusión, mi modelo no tuvo el mejor rendimiento, pero creo que puede ser utilizado para un sistema que predice el número de bicicletas que se rentarán de acuerdo a los datos climáticos de entrada ya que siendo un modelo de regresión, con un valor de R² mayor a 0.8 se considera aceptable indicando que una gran proporción de la varianza en la variable dependiente es explicada por las variables independientes.
 
 ## Referencias
 
