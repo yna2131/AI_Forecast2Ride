@@ -15,7 +15,7 @@ contribuyendo a la gestión eficiente del sistema de bicicletas compartidas en l
 
 ## Introducción
 
-El uso de bicicletas públicas es una opción eficiente y ecológica para la movilidad en Seúl. Por la alta demanda, uno de los principales desafíos lde estos sistemass de bicicletas compartidas es garantizar la disponibilidad estable a lo largo del día, minimizando el tiempo de espera para los usuarios.
+El uso de bicicletas públicas es una opción eficiente y ecológica para la movilidad en Seúl. Por la alta demanda, uno de los principales desafíos de estos sistemas de bicicletas compartidas es garantizar la disponibilidad estable a lo largo del día, minimizando el tiempo de espera para los usuarios.
 
 ## Dataset
 
