@@ -44,8 +44,8 @@ Este proyecto utiliza técnicas de Machine Learning para predecir la cantidad de
 
 - Date : year-month-day
 - Rented Bike count - Count of bikes rented at each hour
-- Hour - Hour of he day
-- Temperature-Temperature in Celsius
+- Hour - Hour of the day
+- Temperature - Temperature in Celsius
 - Humidity - %
 - Windspeed - m/s
 - Visibility - 10m
