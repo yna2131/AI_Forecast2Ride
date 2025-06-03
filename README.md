@@ -72,10 +72,14 @@ Y al final de esto, exporté los datos de entrenamiento escalados, los datos de 
 ### Heatmap.ipynb
 
 Como tengo muchos features independientes, decidí evaluar la correlación entre estas categorías para visualizar la relevancia de cada uno de ellos con el target que es la cantidad de bicicletas rentadas ya que los features irrelevantes afectan la exactitud del modelo [2].
-Utilicé `seaborn` y `matplotlib.pyplot` para graficar este heat map. Eliminé las columnas de índice y de fechas los cuáles consideré irrelevantes desde la fase de escalamiento de los datos, y utilicé `corr()` para obtener la correlación entre las columnas. 
+Utilicé `seaborn` y `matplotlib.pyplot` para graficar este heat map. Eliminé la columna de fechas lo cual consideré irrelevantes desde la fase de escalamiento de los datos, y utilicé `corr()` para obtener la correlación entre las columnas. 
 Claramente, la hora y la temperatura fueron las columnas con más correlación con la cantidad de bicicletas rentadas.
 
-![Correlation Heatmap](./Images/image-4.png)
+<p align="center">
+    <image src="./Images/image-4.png" alt="Heatmap de Correlación" width="40%">
+    <br>
+    <em> Fig 1. Heatmap de Correlación</em>
+</p>
 
 ### ModelTraining.ipynb
 
@@ -83,12 +87,78 @@ Utilizando `RandomForestRegressor` de `sklearn.ensemble`, entrené mi modelo con
 Para los datos objetivos que no están escalados, utilicé `values.ravel()` para convertir mi DataFrame en un arreglo NumPy unidimensional.
 Después, creé mi modelo `RandomForestRegressor` usando scikit-learn. El parámetro `n_estimators` es para indicar el número de árboles en el bosque, y el `random_state` sirve para que mi modelo obtenga el mismo resultado siempre.
 `y_pred` es el arreglo con las predicciones del modelo que se generó con los datos de prueba. Después, calculé el **Mean Absolute Error (MAE)**, **Root Mean Squared Error (RMSE)** y **R^2** usando `sklearn.metrics`. 
-Mi modelo tuvo MAE de 140.97, RMSE de 233.63 y R^2 de 0.87, cuando el modelo que encontré que utiliza random forest obtuvo MAE de 121, RMSE de 210 y R de 0.9 [3]. También generé 3 gráficas utililando `matplotlib.pyplot` para ver qué tan lejos están los valores previstos de los valores actuales.
-Las primeras dos gráficas muestra todos los valores, pero la última gráfica recibe una entrada por hora para que sea más fácil de visualizar la comparación, y utilicé `randint` para que el resultado de la gráfica cada vez que corres el modelo.
-
-Al quitar Dew Point Temperature, el MAE baja a 140.83, RMSE a 233.47 y R^2 queda igual a 0.87
+Mi modelo tuvo MAE de 140.97, RMSE de 233.63 y R^2 de 0.87. También generé 2 gráficas utililando `matplotlib.pyplot` para ver qué tan lejos están los valores previstos de los valores actuales.
 
 
+<p align="center">
+    <image src="./Images/image-5.png" alt="Actual vs Predicted" width="40%">
+    <br>
+    <em> Fig 2. Comparación de datos reales vs datos predichos</em>
+</p>
+
+Esta gráfica muestra todos los valores predichos y reales al mismo tiempo. La línea roja es lo que se considera la predicción
+perfecta, y lo más disperso, más error tiene mi modelo. Y como se puede observar, sí hay puntos muy lejos de otros,
+pero en general, todos los puntos están muy cerca de la línea roja.
+
+<p align="center">
+    <image src="./Images/image-6.png" alt="Actual vs Predicted - One Entry per Hour" width="40%">
+    <br>
+    <em> Fig 3. Comparación de datos reales vs datos predichos - una entrada por hora</em>
+</p>
+
+En caso de esta gráfica, recibe una entrada por hora para que sea más fácil de visualizar la comparación.
+Sí es mucho más fácil de observar los datos y analizar que en general, los valores predichos y actuales no están muy lejos.
+Sin embargo, el resultado de la gráfica es distinta cada vez que se corre el modelo porque utilicé `randint()` y nada más se muestra una
+parte muy chiquita del resultado. Hay veces donde las predicciones están muy lejos de los datos reales, y hay veces donde la predicción es muy similar al valor esperado.
+Entonces es complicado visualizar cómo está el desempeño de mi modelo en general.
+
+#### Uso de Datos Externos
+
+Ya con un modelo funcional, intenté generar una predicción utilizando los datos externos. El usuario da las variables independientes,
+y el modelo predice la cantidad de las bicicletas que se rentará de acuerd a los datos recibidos.
+Al principio, estaba obteniendo predicciones bastantes cercanas a los valores esperados (ex. Si el valor real era 251, la predicción fue 227), pero me dí cuenta que mi dataset tenía una columna
+extra de índice que pensé que había el las fases anteriores. Por esta razón, regresé a limpiar mis datos y entrar de nuevo mi modelo para probar la predicción con los datos externos.
+Ya una vez que esta columna fue eliminada, la predicción empeoró bastante porque la columna de índice era un ruido que estaba haciendo un tipo de "trampa" a mi modelo. Antes, el modelo estaba obteniendo el R^2 de 0.88, pero después del ajuste, el modelo obtuvo el R^2 de 0.87 
+lo cual no parece ser un gran cambio, pero afecta bastante en las predicciones. Aunque parece que empeoré mi modelo, al final, esto fue una mejora ya que eliminé el ruido que no me estaba dejando una predicción más preciso y real.
+
+## Mejorando el modelo
+
+Como estoy utilizando muchos features para mi modelo:
+
+1. Hora
+2. Temperatura
+3. Humedad
+4. Velocidad del viento
+5. Visibilidad
+6. Punto de rocío
+7. Radiación solar
+8. Lluevias
+9. Nevadas
+10. Estación (Primavera, Verano, Otoño, Invierno)
+11. Día Festival (Sí o No)
+12. Día Funcional (Sí o No)
+
+Y en teoría, al momento de eliminar algunos features que tiene una correlación débil, el modelo puede mejorar su rendimento [2].
+Por esta razón, intenté eliminar algunos features que parecen estar muy relacionados con otros features. Primero, intenté eliminar
+punto de rocío lo cual se relaciona mucho con la temperatura de acuerdo a mi heatmap de correlación, y radiación solar que se relaciona bastane con
+la temperatura y humedad. Originalmente, mi modelo tuvo MAE de 140.97, RMSE de 233.63 y R^2 de 0.87; y al eliminarlos, el reusltado de las predicciones fueron mucho más impreciso obteniendo los valores de MAE y RMSE más altos, 
+y R^2 mucho más bajo que antes. Entonces intenté una vez más eliminando solamente el punto de rocío que es un dato muy similar a la temperatura, y esta vez, 
+los resultados mejoraron con el MAE que bajó a 140.83, RMSE a 233.47 y R^2 queda igual a 0.87
+
+<p align="center">
+    <image src="./Images/image-1.png" alt="Random Forest (all features)" width="60%">
+    <br>
+    <em> Fig 4. Comparación de los primeros 100 resultados utilizando todos los features</em>
+</p>
+
+<p align="center">
+    <image src="./Images/image-7.png" alt="Random Forest (without Dew Point Temperature)" width="60%">
+    <br>
+    <em> Fig 5. Comparación de los primeros 100 resultados sin punto de rocío</em>
+</p>
+
+Si comparamos la figura 4 y 5 a detalle, se ve que sí hay un poco de diferencia aunque sí es bastante similar en general. Hay predicciones que se empeoran un poquito que antes, pero también hay predicciones que mejoran; podemos observar los puntos
+que estaban empalmados quedaron aun más empalmados, lo cual nos explica por qué el MAE y RMSE bajaron. El error bajó al momento de quitar el punto de rocío desde los features, aunque fue por muy poquito.
 
 ### NueralNetwork.ipynb
 
@@ -99,28 +169,50 @@ y al evaluar, obtuve el loss de 194.56 y el accuracy de 0.029. Sin embargo, como
 de que una predicción sea exactamente igual que el valor real es muy baja.
 Y este modelo tuvo MAE de 194.56, RMSE de 315.91 y R^2 de 0.76.
 
-## Análisis de Resultados
-
 ### Comparación de Modelos
 
 #### Random Forest
 
-![RandomForest_100](./Images/image-1.png)
+<p align="center">
+    <image src="./Images/image-1.png" alt="Random Forest (100 entries)" width="60%">
+    <br>
+    <em> Fig 6. Comparación de los primeros 100 resultados de Random Forest</em>
+</p>
 
-![RandomForest_1752](./Images/image.png)
+<p align="center">
+    <image src="./Images/image.png" alt="Random Forest (All entries)" width="60%">
+    <br>
+    <em> Fig 7. Comparación de todos los resultados de Random Forest</em>
+</p>
 
 #### Deep Neural Network
 
-![DNN_100](./Images/image-2.png)
+<p align="center">
+    <image src="./Images/image-2.png" alt="DNN (100 entries)" width="60%">
+    <br>
+    <em> Fig 8. Comparación de los primeros 100 resultados de DNN</em>
+</p>
 
-![DNN_1752](./Images/image-3.png)
+<p align="center">
+    <image src="./Images/image-3.png" alt="DNN (All entries)" width="60%">
+    <br>
+    <em> Fig 9. Comparación de todos los resultados de DNN</em>
+</p>
 
-Estas 4 gráficas muestran el resultado de predicciones de los dos modelos. Los primeros dos son de Random Forest; la primera gráfica siendo el scatter plot de las primeras 100 entradas, 
-y la segunda siendo la versión con todas las entradas del datase. Las mismas gráficas se muestran para la sección de Neural Network.
+Para los ambos modelos, creé un scatter plot que muestra los valores de salida esperados en color azul, y las prediccioens del modelo con color rojo.
+Los primeros dos son de Random Forest; la primera gráfica siendo el scatter plot de las primeras 100 entradas, 
+y la segunda siendo la versión con todas las entradas del dataset. Las mismas gráficas se muestran para la sección de Neural Network.
 Como se puede observar en las gráfica 1 y 3 que muestran las primeras 100 predicciones, hay predicciones que son muy cercanas a los datos reales pero al mismo tiempo hay predicciones que están muy lejos de lo esperado.
 Aunque la diferencia entre los resultados de los dos modelos parece ser muy similares al observar las gráficas y más con los scatter plots que muestran todas las predicciones del dataset, pude analizar que el modelo
-que utiliza Random Forest tiene mejor rendimiento que el modelo que utiliza Neural Network. Si nos enfacos en las gráficas de 100 entradas, los puntos de predicción del modelo con Random Forest están más cercas de los resultados esperados.
+que utiliza Random Forest tiene mejor rendimiento que el modelo que utiliza Neural Network. Si nos enfocamos en las gráficas de 100 entradas, los puntos de predicción del modelo con Random Forest están más cercas 
+de los resultados esperados que en el modelo de Nueral Network.
 
+## Conclusión
+
+Después de comparar diferentes modelos, llegué a la conclusión que el modelo de Random Forest sin el punto de rocío obtuvo el mejor resultado. No fue el modelo óptimo para hacer las predicciones ya que mi modelo tuvo 
+el MAE de 140.83, RMSE de 233.47 y el R^2 de 0.87, cuando el modelo que encontré que utiliza Random Forest obtuvo MAE de 121, RMSE de 210 y R de 0.9 [3].
+Aunque mi modelo no tuvo el mejor rendimiento, creo que puede ser utilizado para un sistema que predice el número de bicicletas que se rentará de acuerdo a los datos climáticos de entrada porque siendo un modelo de regresión,
+el valor de R^2 siendo mayor que 0.8 se puede considerar aceptable ya que esto indica que una gran proporción de la varianza en la variable dependiente es explicada por las variables independientes.
 
 ## Referencias
 
